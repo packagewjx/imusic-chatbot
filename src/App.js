@@ -8,7 +8,7 @@ import ChatBot, {Loading} from 'react-simple-chatbot'
  * @returns {string[] | undefined} 若结果空，则返回undefined
  */
 function parseUnsureResult(str) {
-  let pat = /（([^.）]+)...）/;
+  let pat = /（([^.）]+)(?:...)?）$/;
   let parseResult = pat.exec(str);
   if (parseResult === null)
     return undefined;
@@ -53,6 +53,7 @@ class Query extends Component {
         if ((results = parseUnsureResult(textResult)) !== undefined) {
           nextStep.value = results;
           nextStep.trigger = 'choices';
+          nextMessage = textResult.substr(0, textResult.indexOf('（'));
         } else if ((results = parseResult(textResult)) !== undefined) {
           nextStep.value = results;
           nextStep.trigger = 'choices';
@@ -86,28 +87,28 @@ class Choices extends Component {
 
   render() {
     let self = this;
-    let buttons = [];
+    let rows = [];
     let choices = this.props.previousStep.value;
     for (let i = 0; i < choices.length; i++) {
-      buttons.push(
-        <button key={i} disabled={this.state.disabled} onClick={() => {
+      rows.push(
+        <div key={i} className={this.state.disabled ? "list-item list-item-disabled" : "list-item"} onClick={() => {
           self.props.triggerNextStep({value: choices[i], trigger: 'user-selected'});
-          self.setState({disabled: true})
-        }}>
-          {choices[i]}
-        </button>)
+          self.setState({disabled: true});
+        }}>{choices[i]}</div>
+      )
     }
 
-    buttons.push(<button key={'user-input'} disabled={this.state.disabled} onClick={() => {
-      self.setState({disabled: true});
-      self.props.triggerNextStep({trigger: 'user-input'});
-    }}>不选择</button>);
-
-    return (
-      <div>
-        {buttons}
-      </div>
+    // 让用户能够不选择，而是继续输入
+    rows.push(
+      <div key={'b'} className={this.state.disabled ? "list-item list-item-disabled" : "list-item"} onClick={() => {
+        self.setState({disabled: true});
+        self.props.triggerNextStep({trigger: 'user-input'});
+      }}>不选择</div>
     );
+
+    return <div style={{width: "100%", pointerEvents: this.state.disabled ? "none" : "default"}}>
+      {rows}
+    </div>;
   }
 }
 
@@ -156,6 +157,7 @@ class App extends Component {
                      id: 'choices',
                      component: <Choices/>,
                      waitAction: true,
+                     delay: 0,
                    }
                  ]}
         />
