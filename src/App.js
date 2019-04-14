@@ -113,7 +113,7 @@ class Choices extends Component {
 }
 
 /**
- * 简单的只是显示一条消息
+ * 简单的只是显示一条消息，然后自动去查询
  */
 class HelpYouFindMessage extends Component {
   componentDidMount() {
