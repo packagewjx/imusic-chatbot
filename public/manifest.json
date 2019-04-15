@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "爱音乐智能对话机器人",
+  "name": "华南理工大学爱音乐NLP智能对话机器人",
   "icons": [
     {
       "src": "favicon.ico",

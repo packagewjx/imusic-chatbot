@@ -160,7 +160,8 @@ class App extends Component {
     return (
       <div className="App">
         <ChatBot botDelay={0} userDelay={0} style={{width: "100vw", height: "100vh"}}
-                 contentStyle={{height: "calc(100vh - 112px)"}}
+                 contentStyle={{height: "calc(100vh - 112px)"}} headerTitle="爱音乐智能对话机器人"
+                 placeholder="请输入信息..." botAvatar="imusic.jpeg"
                  steps={[
                    {
                      id: '1',
