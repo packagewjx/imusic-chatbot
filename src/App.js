@@ -7,17 +7,36 @@ import ChatBot, {Loading} from 'react-simple-chatbot'
  * @param {string} str 需要解析的字符串
  * @returns {{message: string, choices: {label: string, value: string}[]} | undefined} 若结果空，则返回undefined
  */
-function parseUnsureResult(str) {
-  let pat = /（([^.）]+)(?:...)?）$/;
-  let parseResult = pat.exec(str);
-  if (parseResult === null)
+export function parseUnsureResult(str) {
+  let message = "";
+  let choiceStr = "";
+
+  if (str.indexOf('：') !== -1 && str.indexOf('、') !== -1) {
+    let colonIndex = str.indexOf('：');
+    message = str.substr(0, colonIndex);
+    choiceStr = str.substr(colonIndex + 1);
+  } else if (str.endsWith('）') && str.indexOf('（') !== -1) {
+    let parenIndex = str.indexOf('（');
+    // 提取消息
+    message = str.substr(0, parenIndex);
+    // 提取选项
+    if (str.endsWith("...）")) {
+      choiceStr = str.substr(parenIndex + 1, str.length - parenIndex - 5);
+    } else {
+      choiceStr = str.substr(parenIndex + 1, str.length - parenIndex - 2);
+    }
+  } else {
     return undefined;
-  let labels = parseResult[1].split("、");
+  }
+
+
+  let labels = choiceStr.split("、");
   let choices = [];
   for (let i = 0; i < labels.length; i++) {
     choices.push({label: labels[i], value: labels[i]});
   }
-  return {message: str.substr(0, str.indexOf('（')), choices: choices};
+
+  return {message: message, choices: choices};
 }
 
 /**
@@ -31,8 +50,10 @@ function parseCorrectionResult(str) {
     let choices = [];
     let splits = str.split('\n');
     for (let i = 1; i < splits.length - 1; i++) {
-      choices.push({value: splits[i].substr(0, splits[i].indexOf(':')),
-        label: splits[i]});
+      choices.push({
+        value: splits[i].substr(0, splits[i].indexOf(':')),
+        label: splits[i]
+      });
     }
     return {message: message, choices: choices}
   }
@@ -130,7 +151,7 @@ class Choices extends Component {
 
     // 让用户能够不选择，而是继续输入
     rows.push(
-      <div key={'b'} className={this.state.disabled ? "list-item list-item-disabled" : "list-item"} onClick={() => {
+      <div key={'input'} className={this.state.disabled ? "list-item list-item-disabled" : "list-item"} onClick={() => {
         self.setState({disabled: true});
         self.props.triggerNextStep({trigger: 'not-my-choice'});
       }}>没有我想要的</div>

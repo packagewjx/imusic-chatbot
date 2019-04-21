@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 # 爱音乐智能对话机器人Web前端
 
 本项目是基于[React](https://reactjs.org)与[React-Simple-Chatbot](https://github.com/LucasBassetti/react-simple-chatbot)打造的智能对话机器人Web前端，与华南理工大学智能对话机器人接口结合，为爱音乐用户提供歌曲搜索服务。
@@ -19,3 +17,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 构建应用，输出到`build`文件夹。<br>将会把应用所需组件，以生产模式进行打包，获取最佳的页面性能。
 
 最小化构建，文件名包含哈希值。应用能够直接部署了。
+
+# 已知bug
+
+## 1
+
+疯狂搜索 `与阎罗王妥协(feat. Rama)(Brown Sugar Remix)` ，找 `FatDoo` 歌手的时候，会返回`你知道专辑名是什么吗？查找到的专辑有）`。
+
+注意其中遇到选择歌名的时候，需要输入`与阎罗王妥协(feat. Rama)(Brown Sugar Remix)`，如果没的话，就手动输入
