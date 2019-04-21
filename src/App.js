@@ -70,7 +70,7 @@ class Query extends Component {
   componentDidMount() {
     let self = this;
     let request = new XMLHttpRequest();
-    let queryURL = "http://110.64.66.207:8000/query?query=" + this.props.previousStep.value;
+    let queryURL = "http://" + document.domain + ":8000/query?query=" + this.props.previousStep.value;
     request.addEventListener("readystatechange", readyStateChange);
 
     function readyStateChange() {
