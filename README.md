@@ -2,6 +2,16 @@
 
 本项目是基于[React](https://reactjs.org)与[React-Simple-Chatbot](https://github.com/LucasBassetti/react-simple-chatbot)打造的智能对话机器人Web前端，与华南理工大学智能对话机器人接口结合，为爱音乐用户提供歌曲搜索服务。
 
+# 安装依赖
+
+首先执行常规命令：`npm install`。如果有网络问题请先添加国内镜像源，如[淘宝](https://npm.taobao.org/)。
+
+安装完成后，可能警告提示需要安装peer dependency。步骤如下
+
+1. 首先安装一个工具，`npm-install-peers`：`npm install -g npm-install-peers`。
+2. 安装完成后，进入需要安装peer dependency的依赖库，查看错误信息看得出是这里是`ts-pnp`和`react-simple-chatbot`。
+3. 在依赖库中，执行`npm-install-peers`即可。
+
 # 可用脚本
 
 在项目中，可以运行
